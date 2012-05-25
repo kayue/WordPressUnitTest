@@ -2,23 +2,23 @@
 
 class TexturizeTest extends WpTestCase
 {
-    public function test_dont_texturize_dashes_in_code()
+    public function testSontTexturizeDashesInCode()
     {
         $this->assertEquals( '<code>---</code>', wptexturize( '<code>---</code>' ) );
     }
 
-    public function test_dont_texturize_dashes_in_pre()
+    public function testSontTexturizeDashesInPre()
     {
         $this->assertEquals( '<pre>---</pre>', wptexturize( '<pre>---</pre>' ) );
     }
 
-    public function test_dont_texturize_code_inside_a_pre()
+    public function testSontTexturizeCodeInsideAPre()
     {
         $double_nest = '<pre>"baba"<code>"baba"<pre></pre></code>"baba"</pre>';
         $this->assertEquals( $double_nest, wptexturize( $double_nest ) );
     }
 
-    public function test_dont_texturize_pre_inside_a_code()
+    public function testSontTexturizePreInsideACode()
     {
         $double_nest = '<code>"baba"<pre>"baba"<code></code></pre>"baba"</code>';
         $this->assertEquals( $double_nest, wptexturize( $double_nest ) );
