@@ -5,7 +5,8 @@
 
 error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
-require_once 'PHPUnit/Autoload.php';
+require_once('PHPUnit/Autoload.php');
+require_once('PHPUnit/Util/ErrorHandler.php');
 
 $config_file_path = dirname( __FILE__ ) . '/unittests-config.php';
 
