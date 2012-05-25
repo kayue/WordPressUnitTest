@@ -1,6 +1,6 @@
 <?php
 
-class WP_Test_Texturize extends WP_UnitTestCase {
+class TexturizeTest extends WpTestCase {
 	function test_dont_texturize_dashes_in_code() {
 		$this->assertEquals( '<code>---</code>', wptexturize( '<code>---</code>' ) );
 	}
