@@ -1,6 +1,7 @@
 <?php
 
-class RequestTest extends WpTestCase {
+class RequestTest extends WpTestCase 
+{
 	function setUp() {
 		parent::setUp();
 

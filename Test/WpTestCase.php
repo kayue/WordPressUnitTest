@@ -8,21 +8,24 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 	
 	static protected $db;
 
-	function setUp() {
+    public static function setUpBeforeClass()
+    {
 		global $wpdb;
 
 		static::$db = $wpdb;
 		static::$db->suppress_errors = false;
 		static::$db->show_errors = true;
 		static::$db->db_connect();
+    }
 
+	protected function setUp() {
 		$this->setupErrorHandler();
-		$this->cleanUpGlobalScope();
+		static::cleanUpGlobalScope();
 
 		static::startTransaction();
 	}
 
-	function tearDown() 
+	protected function tearDown() 
 	{
 		static::rollback();
 	}
@@ -103,7 +106,8 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( preg_replace( '/\s*/', '', $expected ), preg_replace( '/\s*/', '', $actual ) );
 	}
 
-	function checkAtLeastPHPVersion( $version ) {
+	function checkAtLeastPHPVersion( $version ) 
+	{
 		if ( version_compare( PHP_VERSION, $version, '<' ) ) {
 			$this->markTestSkipped();
 		}
@@ -155,4 +159,59 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 
 		$GLOBALS['wp']->main(isset($parts['query']) ? $parts['query'] : '');
 	}
+
+	/**
+	 * Insert a given number of trivial posts, each with predictable title, content and excerpt
+	 */
+	static protected function insertQuickPosts($num, $type='post', $more = array()) 
+	{
+		for ($i=0; $i<$num; $i++) {
+			wp_insert_post(array_merge(array(
+				'post_author' => 1,
+				'post_status' => 'publish',
+				'post_title' => "{$type} title {$i}",
+				'post_content' => "{$type} content {$i}",
+				'post_excerpt' => "{$type} excerpt {$i}",
+				'post_type' => $type
+			), $more));
+		}
+	}
+
+	/**
+	 * Insert a given number of trivial pages, each with predictable title, content and excerpt
+	 */
+	static protected function insertQuickPages($num, $more = array()) 
+	{
+		static::insertQuickPosts($num, 'page', $more);
+	}
+
+	static protected function insertQuickComments($post_id, $num=3) 
+	{
+		for ($i=0; $i<$num; $i++) {
+			wp_insert_comment(array(
+				'comment_post_ID' => $post_id,
+				'comment_author' => "Commenter $i",
+				'comment_author_url' => "http://example.com/$i/",
+				'comment_approved' => 1,
+				));
+		}
+	}
+
+	/**
+	 *
+	 */
+	static protected function loadSqlDump($file) 
+	{
+		$lines = file($file);
+
+		foreach ($lines as $line) {
+			$line = trim( $line );
+			
+			if ( empty( $line ) || 0 === strpos( $line, '--' ) || 0 === strpos( $line, '/*' ) || 0 === strpos($line, 'LOCK TABLES ') )
+				continue;
+
+			static::$db->query($line);
+		}
+	}
+
 }
