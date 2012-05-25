@@ -8,8 +8,8 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 	
 	static protected $db;
 
-    public static function setUpBeforeClass()
-    {
+	public static function setUpBeforeClass()
+	{
 		global $wpdb;
 
 		static::$db = $wpdb;
@@ -195,6 +195,13 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 				'comment_approved' => 1,
 				));
 		}
+	}
+
+	static protected function nukeMainTables()
+	{
+		// crude but effective: make sure there's no residual data in the main tables
+		foreach ( array('posts', 'postmeta', 'comments', 'terms', 'term_taxonomy', 'term_relationships', 'users', 'usermeta') as $table)
+			static::$db->query("DELETE FROM ".static::$db->$table);
 	}
 
 	/**
