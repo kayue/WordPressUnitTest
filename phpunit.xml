@@ -2,4 +2,10 @@
 	bootstrap="./init.php"
 	backupGlobals="false"
 	colors="true"
-></phpunit>
+>
+    <testsuites>
+        <testsuite name="WP_TestCase Tests">
+            <directory>./Tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
