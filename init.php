@@ -55,7 +55,4 @@ $offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phra
 eval(substr($wp_settings_content, $offset));
 unset($wp_settings_content, $offset, $shortinit_phrase);
 
-// require dirname( __FILE__ ) . '/lib/testcase.php';
-// require dirname( __FILE__ ) . '/lib/exceptions.php';
-
 require(dirname(__FILE__).'/Test/WpTestCase.php');
