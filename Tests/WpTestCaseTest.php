@@ -23,7 +23,7 @@ class WpTestCaseTest extends WpTestCase
         $query = new WP_Query(array('posts_per_page' => -1));
         $count = count($query->posts);
 
-        $this->assertEquals(39, $count, 'There should be only one post in database.');
+        $this->assertEquals(39, $count, 'There should be 39 posts in database.');
     }
 
     public function testRollback()
