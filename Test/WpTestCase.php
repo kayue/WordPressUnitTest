@@ -74,6 +74,10 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 		$_POST = array();
 		$_REQUEST = array();
 
+		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'] = new WP_Query();
+		
+		unset($GLOBALS['post']);
+
 		if(function_exists('wp_cache_flush')) {
 			wp_cache_flush();
 		}
