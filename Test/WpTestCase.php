@@ -19,53 +19,13 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
     }
 
 	protected function setUp() {
-		$this->setupErrorHandler();
 		static::cleanUpGlobalScope();
-
 		static::startTransaction();
 	}
 
 	protected function tearDown() 
 	{
 		static::rollback();
-	}
-
-	private function setupErrorHandler() 
-	{
-		$handler = set_error_handler(array(&$this, 'errorHandler'));
-
-		if (is_null($handler)) {
-			restore_error_handler();
-		}
-	}
-
-	/*
-	 * Treat any error, which wasn't handled by PHPUnit as a failure
-	 */
-	function errorHandler($errno, $errstr, $errfile, $errline) 
-	{
-		// @ in front of statement
-		if (error_reporting() == 0) {
-			return;
-		}
-		
-		// notices and strict warnings are passed on to the phpunit error handler but don't trigger an exception
-		if ($errno | E_USER_ERROR | E_NOTICE | E_STRICT) {
-			PHPUnit_Util_ErrorHandler::handleError($errno, $errstr, $errfile, $errline);
-		}
-		// warnings and errors trigger an exception, which is included in the test results
-		else {
-			error_log("Testing: $errstr in $errfile on line $errline");
-
-			//TODO: we should raise custom exception here, sth like WP_PHPError
-			throw new PHPUnit_Framework_Error(
-				$errstr,
-				$errno,
-				$errfile,
-				$errline,
-				$trace
-			);
-		}
 	}
 
 	static protected function cleanUpGlobalScope() 
