@@ -189,11 +189,11 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Add a user of the specified type
 	 */
-	static protected function makeUser($role = 'administrator', $username = '', $password='', $email='') 
+	static protected function createUser($role = 'administrator', $username = '', $password='', $email='') 
 	{
 		if (!$username)
 			$username = static::randomString();
-		
+
 		if (!$password)
 			$pass = static::randomString();
 
