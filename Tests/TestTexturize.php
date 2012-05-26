@@ -1,6 +1,6 @@
 <?php
 
-class TexturizeTest extends WpTestCase
+class TexturizeTest extends WordPressTestCase
 {
     public function testSontTexturizeDashesInCode()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class WpTestCaseTest extends WpTestCase
+class WPTestCaseTest extends WordPressTestCase
 {
     public function testInsertPost()
     {

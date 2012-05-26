@@ -1,6 +1,6 @@
 <?php
 
-class IsEmailTest extends WpTestCase
+class IsEmailTest extends WordPressTestCase
 {
     public function testIsEmailOnlyLettersWithDotComDomain()
     {

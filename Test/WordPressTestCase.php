@@ -4,7 +4,7 @@
  * Abstract most of the unit test framework stuff, so we're not too dependent on one particular test library
  */
 
-class WpTestCase extends PHPUnit_Framework_TestCase {
+class WordPressTestCase extends PHPUnit_Framework_TestCase {
 	
 	static protected $db;
 

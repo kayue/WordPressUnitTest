@@ -1,6 +1,6 @@
 <?php
 
-class RequestTest extends WpTestCase
+class RequestTest extends WordPressTestCase
 {
     public function setUp()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class UserTest extends WpTestCase
+class UserTest extends WordPressTestCase
 {
 	function testGetUsersOfBlog() {
 		// add one of each user role
