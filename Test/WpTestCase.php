@@ -169,7 +169,7 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 *
+	 * Import data from SQL
 	 */
 	static protected function loadSqlDump($file) 
 	{
@@ -184,5 +184,39 @@ class WpTestCase extends PHPUnit_Framework_TestCase {
 			static::$db->query($line);
 		}
 	}
+
+
+	/**
+	 * Add a user of the specified type
+	 */
+	static protected function makeUser($role = 'administrator', $username = '', $password='', $email='') 
+	{
+		if (!$username)
+			$username = static::randomString();
+		
+		if (!$password)
+			$pass = static::randomString();
+
+		if (!$email)
+			$email = static::randomString().'@example.com';
+
+		$id = wp_create_user($username, $password, $email);
+
+		$user = new WP_User($id);
+		$user->set_role($role);
+
+		return $id;
+	}
+
+	static protected function deleteUser($id) 
+	{
+		return wp_delete_user($id);
+	}
+
+	static protected function randomString($len=32) 
+	{
+		return substr(md5(uniqid(rand())), 0, $len);
+	}
+
 
 }
