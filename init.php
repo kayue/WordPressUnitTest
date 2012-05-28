@@ -69,3 +69,4 @@ eval(substr($wp_settings_content, $offset));
 unset($wp_settings_content, $offset, $shortinit_phrase);
 
 require(dirname(__FILE__).'/Test/WordPressTestCase.php');
+require(dirname(__FILE__).'/Test/WooCommerceTestCase.php');
