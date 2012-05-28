@@ -24,16 +24,16 @@ echo "Installing sites…\n";
 wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
 
 if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
-	$blogs = explode(',', WP_TESTS_BLOGS);
-	foreach ( $blogs as $blog ) {
-		if ( WP_TESTS_SUBDOMAIN_INSTALL ) {
-			$newdomain = $blog.'.'.preg_replace( '|^www\.|', '', WP_TESTS_DOMAIN );
-			$path = $base;
-		} else {
-			$newdomain = WP_TESTS_DOMAIN;
-			$path = $base.$blog.'/';
-		}
-		wpmu_create_blog( $newdomain, $path, $blog, email_exists(WP_TESTS_EMAIL) , array( 'public' => 1 ), 1 );
+    $blogs = explode(',', WP_TESTS_BLOGS);
+    foreach ( $blogs as $blog ) {
+        if ( WP_TESTS_SUBDOMAIN_INSTALL ) {
+            $newdomain = $blog.'.'.preg_replace( '|^www\.|', '', WP_TESTS_DOMAIN );
+            $path = $base;
+        } else {
+            $newdomain = WP_TESTS_DOMAIN;
+            $path = $base.$blog.'/';
+        }
+        wpmu_create_blog( $newdomain, $path, $blog, email_exists(WP_TESTS_EMAIL) , array( 'public' => 1 ), 1 );
 
-	}
+    }
 }

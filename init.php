@@ -38,27 +38,27 @@ require_once ABSPATH . '/wp-settings.php';
 // Preset WordPress options defined in bootstarp file.
 // Used to activate theme and plugins.
 if(isset($GLOBALS['wp_tests_options'])) {
-	foreach($GLOBALS['wp_tests_options'] as $key => $value) {
-		switch ($key) {
-			// actions
-			case 'muplugins_loaded':
-			case 'plugins_loaded':
-			case 'sanitize_comment_cookies':
-			case 'setup_theme':
-			case 'after_setup_theme':
-			case 'init':
-			case 'wp_loaded':
-				add_action($key, $value);
-				break;
-			
-			// options
-			default:
-				add_filter( 'pre_option_'.$key, function() use ($value) {
-					return $value;
-				});
-				break;
-		}
-	}
+    foreach($GLOBALS['wp_tests_options'] as $key => $value) {
+        switch ($key) {
+            // actions
+            case 'muplugins_loaded':
+            case 'plugins_loaded':
+            case 'sanitize_comment_cookies':
+            case 'setup_theme':
+            case 'after_setup_theme':
+            case 'init':
+            case 'wp_loaded':
+                add_action($key, $value);
+                break;
+
+            // options
+            default:
+                add_filter( 'pre_option_'.$key, function() use ($value) {
+                    return $value;
+                });
+                break;
+        }
+    }
 }
 
 // Load the rest of wp-settings.php, start from where we left off.

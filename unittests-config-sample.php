@@ -25,16 +25,16 @@ define( 'DISABLE_WP_CRON', true );
 
 define( 'WP_ALLOW_MULTISITE', false );
 if ( WP_ALLOW_MULTISITE ) {
-	define( 'WP_TESTS_BLOGS', 'first,second,third,fourth' );
+    define( 'WP_TESTS_BLOGS', 'first,second,third,fourth' );
 }
 if ( WP_ALLOW_MULTISITE && !defined('WP_INSTALLING') ) {
-	define( 'SUBDOMAIN_INSTALL', WP_TESTS_SUBDOMAIN_INSTALL );
-	define( 'MULTISITE', true );
-	define( 'DOMAIN_CURRENT_SITE', WP_TESTS_DOMAIN );
-	define( 'PATH_CURRENT_SITE', '/' );
-	define( 'SITE_ID_CURRENT_SITE', 1);
-	define( 'BLOG_ID_CURRENT_SITE', 1);
-	//define( 'SUNRISE', TRUE );
+    define( 'SUBDOMAIN_INSTALL', WP_TESTS_SUBDOMAIN_INSTALL );
+    define( 'MULTISITE', true );
+    define( 'DOMAIN_CURRENT_SITE', WP_TESTS_DOMAIN );
+    define( 'PATH_CURRENT_SITE', '/' );
+    define( 'SITE_ID_CURRENT_SITE', 1);
+    define( 'BLOG_ID_CURRENT_SITE', 1);
+    //define( 'SUNRISE', TRUE );
 }
 
 $table_prefix  = 'wp_';

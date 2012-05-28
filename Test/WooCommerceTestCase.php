@@ -5,7 +5,7 @@ class WooCommerceTestCase extends WordPressTestCase
     /**
      * Insert a given number of trivial posts, each with predictable title, content and excerpt
      */
-    static protected function insertQuickOrders($num = 1, $more = array(), $meta = array()) 
+    protected static function insertQuickOrders($num = 1, $more = array(), $meta = array())
     {
         if(!$num)  $num  = 1;
         if(!$more) $more = array();

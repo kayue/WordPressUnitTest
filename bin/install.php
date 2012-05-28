@@ -27,11 +27,11 @@ $wpdb->hide_errors();
 $installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 
 if ( $installed && file_exists( WP_TESTS_DB_VERSION_FILE ) ) {
-	$install_db_version = file_get_contents( WP_TESTS_DB_VERSION_FILE );
-	$db_version = get_option( 'db_version' );
-	if ( $db_version == $install_db_version ) {
-		return;
-	}
+    $install_db_version = file_get_contents( WP_TESTS_DB_VERSION_FILE );
+    $db_version = get_option( 'db_version' );
+    if ( $db_version == $install_db_version ) {
+        return;
+    }
 }
 $wpdb->query( 'SET storage_engine = INNODB;' );
 $wpdb->query( 'DROP DATABASE IF EXISTS '.DB_NAME.";" );
@@ -42,17 +42,17 @@ echo "Installing…\n";
 wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
 
 if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
-	echo "Installing network…\n";
+    echo "Installing network…\n";
 
-	define( 'WP_INSTALLING_NETWORK', true );
-	//wp_set_wpdb_vars();
-	// We need to create references to ms global tables to enable Network.
-	foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
-		$wpdb->$table = $prefixed_table;
-	install_network();
-	$result = populate_network(1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, WP_TESTS_NETWORK_TITLE, ABSPATH, WP_TESTS_SUBDOMAIN_INSTALL);
+    define( 'WP_INSTALLING_NETWORK', true );
+    //wp_set_wpdb_vars();
+    // We need to create references to ms global tables to enable Network.
+    foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
+        $wpdb->$table = $prefixed_table;
+    install_network();
+    $result = populate_network(1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, WP_TESTS_NETWORK_TITLE, ABSPATH, WP_TESTS_SUBDOMAIN_INSTALL);
 
-	system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/ms-install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
+    system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/ms-install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
 
 }
 
