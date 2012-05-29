@@ -2,10 +2,13 @@
 
 class WooCommerceTestCase extends WordPressTestCase
 {
-    static protected function insertQuickProducts($num = 1, $more = array())
+    static protected function insertQuickProducts($num = 1, $more = array(), $terms = array())
     {
         if(!$num)   $num    = 1;
         if(!$more)  $more   = array();
+        if(!$terms) $terms  = array();
+
+        $ids = array();
 
         for ($i=0; $i<$num; $i++) {            
             $data = array_merge(
@@ -20,8 +23,16 @@ class WooCommerceTestCase extends WordPressTestCase
                 $more
             );
 
-            wp_insert_post($data);
+            $id = $ids[$i] = wp_insert_post($data);
+            
+            if(!empty($terms)) {
+                foreach ($terms as $taxonomy => $terms) {
+                    wp_set_object_terms($id, $terms, $taxonomy);
+                }
+            }
         }
+
+        return $ids;
     }
 
     /**
@@ -33,6 +44,8 @@ class WooCommerceTestCase extends WordPressTestCase
         if(!$more) $more = array();
         if(!$meta) $meta = array();
 
+        $ids = array();
+
         for ($i=0; $i<$num; $i++) {
             $orderId = wp_insert_post(array_merge(array(
                 'post_author' => 1,
@@ -42,6 +55,8 @@ class WooCommerceTestCase extends WordPressTestCase
                 'post_excerpt' => "Order excerpt {$i}",
                 'post_type' => 'shop_order'
             ), $more));
+
+            $ids[$i] = $orderId;
 
             $meta = array_merge(
                 array(
@@ -82,5 +97,7 @@ class WooCommerceTestCase extends WordPressTestCase
 
             wp_set_object_terms($orderId, $meta['order_status'], 'shop_order_status' );
         }
+
+        return $ids;
     }
 }

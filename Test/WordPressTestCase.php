@@ -130,18 +130,35 @@ class WordPressTestCase extends PHPUnit_Framework_TestCase
     /**
      * Insert a given number of trivial posts, each with predictable title, content and excerpt
      */
-    protected static function insertQuickPosts($num, $type='post', $more = array())
+    protected static function insertQuickPosts($num = 1, $type = 'post', $more = array(), $terms = array())
     {
+        if(!$num)   $num    = 1;
+        if(!$type)  $type = 'post';
+        if(!$more)  $more   = array();
+        if(!$terms) $terms  = array();
+
+        $ids = array();
+
         for ($i=0; $i<$num; $i++) {
-            wp_insert_post(array_merge(array(
+            $data = array_merge(array(
                 'post_author' => 1,
                 'post_status' => 'publish',
                 'post_title' => "{$type} title {$i}",
                 'post_content' => "{$type} content {$i}",
                 'post_excerpt' => "{$type} excerpt {$i}",
                 'post_type' => $type
-            ), $more));
+            ), $more);
+
+            $id = $ids[$i] = wp_insert_post($data);
+
+            if(!empty($terms)) {
+                foreach ($terms as $taxonomy => $terms) {
+                    wp_set_object_terms($id, $terms, $taxonomy);
+                }
+            }
         }
+
+        return $ids;
     }
 
     /**
