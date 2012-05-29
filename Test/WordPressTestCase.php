@@ -129,6 +129,8 @@ class WordPressTestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Insert a given number of trivial posts, each with predictable title, content and excerpt
+     *
+     * @return array The new post's ID as an array.
      */
     protected static function insertQuickPosts($num = 1, $type = 'post', $more = array(), $terms = array())
     {
@@ -163,22 +165,33 @@ class WordPressTestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Insert a given number of trivial pages, each with predictable title, content and excerpt
+     *
+     * @return array The new page's ID as an array.
      */
-    protected static function insertQuickPages($num, $more = array())
+    protected static function insertQuickPages($num, $more = array(), $terms = array())
     {
-        static::insertQuickPosts($num, 'page', $more);
+        return static::insertQuickPosts($num, 'page', $more, $terms);
     }
 
+    /**
+     * Inserts commets to database.
+     *
+     * @return int The new comment's ID.
+     */
     protected static function insertQuickComments($post_id, $num=3)
     {
+        $ids = array();
+        
         for ($i=0; $i<$num; $i++) {
-            wp_insert_comment(array(
+            $ids[$i] = wp_insert_comment(array(
                 'comment_post_ID' => $post_id,
                 'comment_author' => "Commenter $i",
                 'comment_author_url' => "http://example.com/$i/",
                 'comment_approved' => 1,
-                ));
+            ));
         }
+        
+        return $ids;
     }
 
     protected static function nukeMainTables()
@@ -208,6 +221,8 @@ class WordPressTestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Add a user of the specified type
+     *
+     * @return int The new user's ID.
      */
     protected static function createUser($role = 'administrator', $username = '', $password='', $email='')
     {
