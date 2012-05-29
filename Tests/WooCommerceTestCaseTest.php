@@ -4,7 +4,7 @@ class WooCommerceTestCaseTest extends WooCommerceTestCase
 {
     public function testInsertQuickProducts()
     {
-        $numberOfProducts = rand(5, 25);
+        $numberOfProducts = rand(1, 9);
         static::insertQuickProducts($numberOfProducts);
 
         $query = new WP_Query(array('post_type' => 'product'));
