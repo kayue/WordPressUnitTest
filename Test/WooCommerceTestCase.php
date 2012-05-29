@@ -2,6 +2,28 @@
 
 class WooCommerceTestCase extends WordPressTestCase
 {
+    static protected function insertQuickProducts($num = 1, $more = array())
+    {
+        if(!$num)   $num    = 1;
+        if(!$more)  $more   = array();
+
+        for ($i=0; $i<$num; $i++) {            
+            $data = array_merge(
+                array(
+                    'post_author' => 1, 
+                    'post_status' => 'publish',
+                    'post_title' => "Product title {$i}",
+                    'post_content' => "Product content {$i}",
+                    'post_excerpt' => "Product excerpt {$i}",
+                    'post_type' => 'product', 
+                ),
+                $more
+            );
+
+            wp_insert_post($data);
+        }
+    }
+
     /**
      * Insert a given number of trivial posts, each with predictable title, content and excerpt
      */
