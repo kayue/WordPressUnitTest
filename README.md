@@ -23,3 +23,31 @@ It uses **SQL transactions** to clean up automatically after each test.
 ## Example
 
 Please see [TwentyTest](https://github.com/kayue/twentytest).
+
+## Sample
+
+### BuddyPress
+
+```php
+<?php
+// bootstrap.php
+$GLOBALS['wp_tests_options'] = array(
+	
+	// ...
+
+    'active_plugins' => array(
+        'buddypress/bp-loader.php',
+    ),
+
+    'plugins_loaded' => function() {
+    	// hide potential BuddyPress error
+        add_action('bp_loaded', function(){
+            error_reporting(E_ALL ^ E_USER_NOTICE ^ E_DEPRECATED);
+        });
+    },
+
+    'wp' => function() {
+        error_reporting(E_ALL);
+    }
+);
+```
