@@ -38,8 +38,8 @@ require_once ABSPATH . '/wp-settings.php';
 
 // Preset WordPress options defined in bootstarp file.
 // Used to activate theme and plugins.
-if(isset($GLOBALS['wp_tests_options'])) {
-    foreach($GLOBALS['wp_tests_options'] as $key => $value) {
+if(is_array(WordPressUnitTest::getOptions())) {
+    foreach(WordPressUnitTest::getOptions() as $key => $value) {
         switch ($key) {
             // actions
             case 'muplugins_loaded':
@@ -68,6 +68,3 @@ $shortinit_phrase = "if ( SHORTINIT )\n\treturn false;\n";
 $offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phrase);
 eval(substr($wp_settings_content, $offset));
 unset($wp_settings_content, $offset, $shortinit_phrase);
-
-require(dirname(__FILE__).'/Test/WordPressTestCase.php');
-require(dirname(__FILE__).'/Test/WooCommerceTestCase.php');
