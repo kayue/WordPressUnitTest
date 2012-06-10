@@ -23,32 +23,52 @@ It uses **SQL transactions** to clean up automatically after each test.
 ## Example
 
 Please see [TwentyTest](https://github.com/kayue/twentytest).
+ 
+## Usage
 
-## Sample
-
-### BuddyPress
+#### bootstrap.php
 
 ```php
 <?php
-// bootstrap.php
-$GLOBALS['wp_tests_options'] = array(
-	
-	// ...
 
+include('/path/to/WordPressUnitTest/WordPressUnitTest.php');
+
+WordPressUnitTest::init(array(
+    // parent theme.
+    'template' => 'twentyeleven',
+
+    // child theme, set to the same as parent theme if not a child theme.
+    'stylesheet' => 'twentytest',
+
+    // activate plugins.
     'active_plugins' => array(
+        // BuddyPress
         'buddypress/bp-loader.php',
+
+        // WooCommerce
+        'woocommerce/woocommerce.php',
+
+        // other plugins...
     ),
 
     'plugins_loaded' => function() {
-    	// hide potential BuddyPress error
-        add_action('bp_loaded', function(){
-            error_reporting(E_ALL ^ E_USER_NOTICE ^ E_DEPRECATED);
-        });
-        
-        // done loading BuddyPress, re-enable error reporting
-        add_action('wp', function() {
-            error_reporting(E_ALL);
-        });
+        // optional housekeeping work here
+        WordPressUnitTest::loadBuddyPress();
+        WordPressUnitTest::loadWooCommerce();
     },
-);
+));
+```
+
+#### phpunit.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false">
+    <testsuites>
+        <testsuite name="My Theme's Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
 ```
