@@ -44,10 +44,11 @@ $GLOBALS['wp_tests_options'] = array(
         add_action('bp_loaded', function(){
             error_reporting(E_ALL ^ E_USER_NOTICE ^ E_DEPRECATED);
         });
+        
+        // done loading BuddyPress, re-enable error reporting
+        add_action('wp', function() {
+            error_reporting(E_ALL);
+        });
     },
-
-    'wp' => function() {
-        error_reporting(E_ALL);
-    }
 );
 ```
